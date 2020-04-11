@@ -14,7 +14,9 @@
 
 <body style="background-color: #dddddd;">
     <div class="container col-6 mt-4">
-        <div class="jumbotron w-100" id="chat-log"></div>
+        <h1 class="mb-2">Welcome to {{room_name}}</h1>
+        <!-- <textarea  id="chat-log" class="jumbotron w-100" rows="8"></textarea> -->
+        <div class="jumbotron" style="height:350px; overflow:auto;" id="chat-log"></div>
         <input id="chat-message-input" autofocus class="col-10" type="text">
         <input id="chat-message-submit" type="button" class="btn btn-primary" value="Send">
         {{ room_name|json_script:"room-name" }}
@@ -34,8 +36,6 @@
         );
 
         chatSocket.onmessage = function (e) {
-            console.log("Message received!")
-            console.log(e)
             const data = JSON.parse(e.data);
             if (data.message.trim() != "")
                 document.querySelector('#chat-log').innerText = (data.message + '\n');
@@ -54,9 +54,12 @@
         document.querySelector('#chat-message-submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+            
+            if (message.trim() != "")
             chatSocket.send(JSON.stringify({
                 'message': message
             }));
+            
             messageInputDom.value = '';
         };
     </script>
