@@ -38,7 +38,7 @@
             console.log(e)
             const data = JSON.parse(e.data);
             if (data.message.trim() != "")
-                document.querySelector('#chat-log').innerText += (data.message + '\n');
+                document.querySelector('#chat-log').innerText = (data.message + '\n');
         };
 
         chatSocket.onclose = function (e) {
