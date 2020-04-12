@@ -1,6 +1,6 @@
 from django.db import models
 
-class GroupMessage(models.Model):
+class Group(models.Model):
     name = models.CharField(max_length=50)
     message = models.CharField(max_length=100000, default="")
 

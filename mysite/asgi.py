@@ -14,3 +14,8 @@ from django.core.asgi import get_asgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 
 application = get_asgi_application()
+
+
+# from chat.models import Group
+# list(map(Group.delete, Group.objects.all()))
+
