@@ -20,11 +20,8 @@ class ChatConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(group, self.channel_name)
         
     def disconnect(self, code):
-        self.disconnect(code)
-        group = self.scope["url_route"]["kwargs"]["group"]
-        GroupMessage.delete(GroupMessage.objects.get(name=group))
-        async_to_sync(self.channel_layer.group_discard)(group, self.channel_name)
-    
+        self.close(code)
+            
     def receive(self, text_data):
         group = self.scope["url_route"]["kwargs"]["group"]
         message = json.loads(text_data)["message"]
