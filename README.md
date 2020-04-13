@@ -6,6 +6,7 @@
 + django channels
 + Redis server
 + django channels_redis
++ asgiref
 
 ### Install requirements:
 `cd RealTimeChatRoom && pip3 install -r requirements.txt`
