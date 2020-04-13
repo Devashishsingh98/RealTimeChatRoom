@@ -5,6 +5,9 @@ from django.contrib.auth import login
 
 def index(request):
     error = False
+    
+    if request.user.is_authenticated:
+        print("Dont fuck wid me bro. You already joined!")
 
     if request.method == "POST":
         username = request.POST["username"]
