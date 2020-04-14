@@ -15,7 +15,7 @@
 <body style="background-color: #eeeeee;">
     <div class="container mt-4">
         <h1 class="mb-3">{{room_name}}</h1>
-        <div class="bg-light rounded shadow-lg pl-2 pt-2 mb-3" style="height:500px; overflow:auto;" id="chat-log"></div>
+        <div class="bg-light rounded shaodw pl-2 pt-2 mb-3" style="height:500px; overflow:auto;" id="chat-log"></div>
         <input id="chat-message-input" autofocus class="mr-2 col-10" type="text">
         <input id="chat-message-submit" type="button" class="col-1 rounded btn btn-primary" value="Send">
         {{ room_name|json_script:"room-name" }}
@@ -23,6 +23,7 @@
 
 
     <script>
+        const username = "{{username}}"
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
         const chatSocket = new WebSocket(
@@ -34,11 +35,32 @@
             '/'
         );
 
+        var all_messages = "";
+        var new_messages;
+        
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            if (data.message.trim() != "")
-                document.querySelector('#chat-log').innerText = (data.message + '\n');
+            if (data.message.trim() != "") {
+                // split the received message in new lines
+                all_messages = data.message.split("\n")
+                // convert all_messages username part to bold
+                makeBold()
+
+                data.message = new_messages.join("<br>")
+                document.querySelector('#chat-log').innerHTML = (data.message);
+            }
         };
+
+        // makes the username appear bold
+        function makeBold() {
+            new_messages = []
+            all_messages.forEach(function(msg) {
+                var words = msg.split(":")
+                words[0] = "<strong>" + words[0] + "</strong>"
+                new_messages.push(words.join(": "))
+            })
+            
+        }
 
         chatSocket.onclose = function (e) {
             console.error('Chat socket closed unexpectedly');
@@ -56,7 +78,7 @@
             
             if (message.trim() != "")
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': username + ": " + message
             }));
             
             messageInputDom.value = '';
