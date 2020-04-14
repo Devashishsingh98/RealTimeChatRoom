@@ -16,3 +16,5 @@
 
 ### How to run ?
 `python3 manage.py runserver`
+
+Open browser and go to [127.0.0.1:8000/chat/](http://127.0.0.1:8000/chat/)
